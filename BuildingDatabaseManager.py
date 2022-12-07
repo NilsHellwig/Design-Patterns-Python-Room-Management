@@ -56,6 +56,12 @@ class BuildingDatabaseManager:
                 return True
         return False
 
+    
+    @check_auth
+    def delete_part(self, part_type, id):
+        self.building_database[part_type+"s"] = filter(lambda x: x["id"] != id, self.get_part_list(part_type))
+
+
     @check_auth
     def create_part(self, part_type, id, **kwargs):
         if not(self.check_if_part_exists(part_type, id)):
@@ -82,11 +88,11 @@ class BuildingDatabaseManager:
             raise ValueError("Part of type <"+part_type+"> does not exist!")
 
     @check_auth
-    def report_problem(self, part_type, id, problem_text, rz_username):
+    def report_problem(self, part_type, id, problem_text, rz_username_reporter):
         if self.check_if_part_exists(part_type, id):
             for part in self.get_part_list(part_type):
                 if part.id == id:
-                    return part.report_problem(problem_text, rz_username)
+                    return part.report_problem(problem_text, rz_username_reporter)
         else:
             raise ValueError("Part of type <"+part_type+"> does not exist!")
 

@@ -14,12 +14,12 @@ class Part:
     def get_german_date_string(self):
         return datetime.now().strftime("%d.%m.%Y %H:%M:%S")
 
-    def report_problem(self, problem_text, rz_username):
+    def report_problem(self, problem_text, rz_username_reporter):
         new_problem_id = str(uuid.uuid4())
         reporting_date = self.get_german_date_string()
         new_problem = {"problem_id": new_problem_id, "problem_text": problem_text,
                        "reporting_date": reporting_date, "last_change": reporting_date,
-                       "rz_username": rz_username, "problem_state": "gemeldet"}
+                       "rz_username_reporter": rz_username_reporter, "problem_state": "gemeldet"}
         self.problems.append(new_problem)
         return new_problem
 
