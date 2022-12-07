@@ -7,6 +7,10 @@ class Part:
         self.id = kwargs["id"]
         self.problems = []
 
+    def as_dict(self):
+        return self.__dict__
+        
+
     def get_german_date_string(self):
         return datetime.now().strftime("%d.%m.%Y %H:%M:%S")
 
