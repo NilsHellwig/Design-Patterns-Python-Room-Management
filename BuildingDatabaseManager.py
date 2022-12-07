@@ -3,8 +3,6 @@ from BuildingDatabase import BuildingDatabase
 from BuildingFactory import BuildingFactory
 
 # This class acts as a builder class to manipulate the BuildingDatabase (Builder Pattern)
-
-
 class BuildingDatabaseManager:
 
     def __init__(self, strategy):
@@ -88,11 +86,11 @@ class BuildingDatabaseManager:
             raise ValueError("Part of type <"+part_type+"> does not exist!")
 
     @check_auth
-    def report_problem(self, part_type, id, problem_text, rz_username_reporter):
+    def report_problem(self, part_type, id, problem_text):
         if self.check_if_part_exists(part_type, id):
             for part in self.get_part_list(part_type):
                 if part.id == id:
-                    return part.report_problem(problem_text, rz_username_reporter)
+                    return part.report_problem(problem_text, self.strategy.registered_user)
         else:
             raise ValueError("Part of type <"+part_type+"> does not exist!")
 
