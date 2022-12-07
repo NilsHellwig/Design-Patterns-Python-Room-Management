@@ -21,7 +21,7 @@ class RZAccountStrategyTwoFactor(AuthenticationStrategy):
             raise ValueError("Username not available!")
         if self.database[username] == password:
             # Imagine you have received a code by mail. since this logic is not implemented, any code can be entered here for demonstration purposes.
-            security_code = input("Bitte geben Sie den Code ein, den Sie per Mail erhalten haben: ")
-            print("Sie haben sich erfolgreich registriert.")
+            security_code = input("Please enter the code you received by mail: ")
+            print("You have successfully registered.")
             return True
         return False
