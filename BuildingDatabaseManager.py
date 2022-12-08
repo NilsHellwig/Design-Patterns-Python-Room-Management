@@ -3,6 +3,8 @@ from BuildingDatabase import BuildingDatabase
 from BuildingFactory import BuildingFactory
 
 # This class acts as a builder class to manipulate the BuildingDatabase (Builder Pattern)
+
+
 class BuildingDatabaseManager:
 
     def __init__(self, strategy):
@@ -11,7 +13,7 @@ class BuildingDatabaseManager:
         self.building_database = BuildingDatabase()
         pass
 
-    def authenticate(self, user, password):
+    def authenticate(self, user: str, password: str):
         self.is_authorized = self.strategy.authenticate(user, password)
         return self.is_authorized
 
@@ -26,42 +28,41 @@ class BuildingDatabaseManager:
         return wrapper
 
     @check_auth
-    def get_all_part_data(self, part_type, as_json=False):
+    def get_all_part_data(self, part_type: str, as_json: bool = False):
         retrieved_part_data = []
         for part in self.get_part_list(part_type):
             if as_json:
-               part = part.as_dict()
+                part = part.as_dict()
             retrieved_part_data.append(part)
         return retrieved_part_data
-    
+
     @check_auth
-    def get_part(self, part_type, id, as_json=False):
+    def get_part(self, part_type: str, id: str, as_json=False):
         for part in self.get_part_list(part_type):
             if part.id == id:
                 if as_json:
-                   part = part.as_dict()
+                    part = part.as_dict()
                 return part
 
     @check_auth
-    def get_part_list(self, part_type):
+    def get_part_list(self, part_type: str):
         return getattr(self.building_database, part_type+"s")
 
     @check_auth
-    def check_if_part_exists(self, part_type, id):
+    def check_if_part_exists(self, part_type: str, id: str):
         part_list = self.get_part_list(part_type)
         for part in part_list:
             if part.id == id:
                 return True
         return False
 
-    
     @check_auth
-    def delete_part(self, part_type, id):
-        self.building_database[part_type+"s"] = filter(lambda x: x["id"] != id, self.get_part_list(part_type))
-
+    def delete_part(self, part_type: str, id: str):
+        self.building_database[part_type+"s"] = filter(
+            lambda x: x["id"] != id, self.get_part_list(part_type))
 
     @check_auth
-    def create_part(self, part_type, id, **kwargs):
+    def create_part(self, part_type: str, id: str, **kwargs):
         if not(self.check_if_part_exists(part_type, id)):
             new_part = BuildingFactory.create_part(
                 part_type=part_type, id=id, **kwargs)
@@ -71,13 +72,13 @@ class BuildingDatabaseManager:
             raise ValueError("Part already exists!")
 
     @check_auth
-    def get_all_problems(self, part_type, id):
+    def get_all_problems(self, part_type: str, id: str):
         for part in self.get_part_list(part_type):
             if part.id == id:
                 return part.problems
 
     @check_auth
-    def get_problem(self, part_type, id, problem_id):
+    def get_problem(self, part_type: str, id: str, problem_id: str):
         if self.check_if_part_exists(part_type, id):
             for part in self.get_part_list(part_type):
                 if part.id == id:
@@ -86,7 +87,7 @@ class BuildingDatabaseManager:
             raise ValueError("Part of type <"+part_type+"> does not exist!")
 
     @check_auth
-    def report_problem(self, part_type, id, problem_text):
+    def report_problem(self, part_type: str, id: str, problem_text: str):
         if self.check_if_part_exists(part_type, id):
             for part in self.get_part_list(part_type):
                 if part.id == id:
@@ -95,7 +96,7 @@ class BuildingDatabaseManager:
             raise ValueError("Part of type <"+part_type+"> does not exist!")
 
     @check_auth
-    def set_problem_state(self, part_type, id, problem_id, new_state):
+    def set_problem_state(self, part_type: str, id: str, problem_id: str, new_state: str):
         if self.check_if_part_exists(part_type, id):
             for part in self.get_part_list(part_type):
                 if part.id == id:

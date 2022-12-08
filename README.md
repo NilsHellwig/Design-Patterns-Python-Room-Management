@@ -1,4 +1,4 @@
-# Design Patterns Rooom Management
+# Design Patterns Room Management
 
 ## About
 
@@ -8,7 +8,7 @@ This repository is used to try out different design patterns identified by <cite
 
 ### Builder Pattern
 
-The `BuildingDatabaseManager` class acts as a builder class that performs manipulations on the `BuildingDatabase` class which represents the database with all informations, including (listed in the next section). The `BuildingDatabaseManager` class provides methods to the outside for this purpose.
+The `BuildingDatabaseManager` class acts as a builder class that performs manipulations on the `BuildingDatabase` class which represents the database with all information, including (listed in the next section). The `BuildingDatabaseManager` class provides methods to the outside for this purpose.
 
 ### Factory Pattern
 
